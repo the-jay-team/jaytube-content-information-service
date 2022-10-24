@@ -21,8 +21,12 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - uses: actions/checkout@v2
+        name: Check out code
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: mr-smithers-excellent/docker-build-push@v3
+        name: Build & push Docker image 
         with:
           image: thejayteam/jaytube-content-information-service
           registry: docker.io
