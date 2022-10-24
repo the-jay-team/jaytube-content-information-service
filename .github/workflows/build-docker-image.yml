@@ -24,7 +24,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: mr-smithers-excellent/docker-build-push@v3
         with:
-          image: the-jay-team/jaytube-content-information-service
+          image: thejayteam/jaytube-content-information-service
           registry: docker.io
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
