@@ -57,6 +57,7 @@ func (controller *VideoController) GetVideoById(context *gin.Context) {
 		Id:          id,
 		Title:       openSearchData.Title,
 		Description: openSearchData.Description,
+		UploadDate:  openSearchData.UploadDate,
 		Tags:        openSearchData.Tags,
 		Creator:     openSearchData.Creator,
 		Visibility:  openSearchData.Visibility,
