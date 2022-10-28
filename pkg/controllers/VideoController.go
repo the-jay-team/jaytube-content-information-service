@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
-	"github.com/the-jay-team/jaytube-content-information-service/interneal/clients"
+	"github.com/the-jay-team/jaytube-content-information-service/internal/clients"
 	"github.com/the-jay-team/jaytube-content-information-service/pkg/models"
 	"net/http"
 )
