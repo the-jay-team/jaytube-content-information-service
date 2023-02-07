@@ -1,25 +1,39 @@
 package main
 
 import (
+	"crypto/tls"
 	"github.com/gin-gonic/gin"
-	"github.com/the-jay-team/jaytube-content-information-service/internal/clients"
-	"github.com/the-jay-team/jaytube-content-information-service/pkg/configs"
-	"github.com/the-jay-team/jaytube-content-information-service/pkg/controllers"
+	"github.com/opensearch-project/opensearch-go"
+	"github.com/the-jay-team/jaytube-content-information-service/internal/configs"
+	"github.com/the-jay-team/jaytube-content-information-service/internal/controllers"
+	"log"
+	"net/http"
 )
 
 func main() {
+	openSearchConfig := configs.GetEnvironmentConfig().Opensearch
+	client, opensearchClientError := opensearch.NewClient(opensearch.Config{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		},
+		Addresses: []string{openSearchConfig.Host},
+		Username:  openSearchConfig.Username,
+		Password:  openSearchConfig.Password,
+	})
+	if opensearchClientError != nil {
+		log.Fatalf("Could not initialize OpenSearch Client: %s", opensearchClientError)
+	}
+
 	server := gin.Default()
-	openSearchConfig := configs.GetEnvironmentConfig().OpenSearch
-	videoController := controllers.NewVideoController(
-		*clients.NewOpenSearchClient(
-			openSearchConfig.Host,
-			openSearchConfig.VideoDataIndex,
-			openSearchConfig.Username,
-			openSearchConfig.Password))
+	videoController := controllers.VideoController{
+		OpensearchClient: client,
+		Config:           openSearchConfig,
+	}
 
-	server.POST("/video", videoController.PostVideoData)
-	server.GET("/video", videoController.GetVideoById)
-	server.DELETE("/video", videoController.DeleteVideoById)
+	server.POST("/video", videoController.UploadVideoData)
 
-	server.Run(":8080")
+	ginStartError := server.Run(":8080")
+	if ginStartError != nil {
+		log.Fatal("Could not Startup gin: ")
+	}
 }

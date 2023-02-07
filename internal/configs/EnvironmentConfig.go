@@ -6,12 +6,14 @@ import (
 )
 
 type EnvironmentConfig struct {
-	OpenSearch struct {
-		Host           string `envconfig:"OPEN_SEARCH_HOST"`
-		VideoDataIndex string `envconfig:"OPEN_SEARCH_VIDEO_DATA_INDEX"`
-		Username       string `envconfig:"OPEN_SEARCH_USERNAME"`
-		Password       string `envconfig:"OPEN_SEARCH_PASSWORD"`
-	}
+	Opensearch OpenSearchConfig
+}
+
+type OpenSearchConfig struct {
+	Host           string `envconfig:"OPEN_SEARCH_HOST"`
+	VideoDataIndex string `envconfig:"OPEN_SEARCH_VIDEO_DATA_INDEX"`
+	Username       string `envconfig:"OPEN_SEARCH_USERNAME"`
+	Password       string `envconfig:"OPEN_SEARCH_PASSWORD"`
 }
 
 var config EnvironmentConfig
