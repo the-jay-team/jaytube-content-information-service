@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/opensearch-project/opensearch-go"
 	"github.com/the-jay-team/jaytube-content-information-service/internal/configs"
-	"github.com/the-jay-team/jaytube-content-information-service/internal/controllers"
+	"github.com/the-jay-team/jaytube-content-information-service/internal/endpoint/video_data"
 	"log"
 	"net/http"
 )
@@ -25,7 +25,7 @@ func main() {
 	}
 
 	server := gin.Default()
-	videoController := controllers.VideoController{
+	videoController := video_data.VideoController{
 		OpensearchClient: client,
 		Config:           openSearchConfig,
 	}

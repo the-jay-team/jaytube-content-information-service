@@ -1,4 +1,4 @@
-package controllers
+package video_data
 
 import (
 	"bytes"

@@ -1,6 +1,15 @@
-package models
+package data
 
-type OpenSearchVideoData struct {
+type Visibility string
+
+const (
+	Public    Visibility = "PUBLIC"
+	NotListed            = "NOT_LISTED"
+	Private              = "PRIVATE"
+)
+
+type VideoData struct {
+	Id          string     `json:"id" binding:"required"`
 	Title       string     `json:"title"`
 	Description string     `json:"description"`
 	UploadDate  string     `json:"uploadDate"`
