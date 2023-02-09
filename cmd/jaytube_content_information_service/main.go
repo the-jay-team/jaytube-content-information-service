@@ -32,6 +32,6 @@ func main() {
 
 	ginStartError := server.Run(":8080")
 	if ginStartError != nil {
-		log.Fatal("Could not Startup gin: ")
+		log.Fatalf("Could not Startup gin: %s", ginStartError)
 	}
 }
