@@ -5,7 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/opensearch-project/opensearch-go"
 	"github.com/the-jay-team/jaytube-content-information-service/internal/configs"
-	"github.com/the-jay-team/jaytube-content-information-service/internal/endpoint/video_data"
+	"github.com/the-jay-team/jaytube-content-information-service/internal/data_provider"
+	"github.com/the-jay-team/jaytube-content-information-service/internal/endpoint"
 	"log"
 	"net/http"
 )
@@ -25,12 +26,9 @@ func main() {
 	}
 
 	server := gin.Default()
-	videoController := video_data.VideoController{
-		OpensearchClient: client,
-		Config:           openSearchConfig,
-	}
+	videoController := endpoint.NewPostVideoData(data_provider.NewDataProvider(client, openSearchConfig.VideoDataIndex))
 
-	server.POST("/video", videoController.UploadVideoData)
+	server.POST("/video", videoController.PostVideoData)
 
 	ginStartError := server.Run(":8080")
 	if ginStartError != nil {
