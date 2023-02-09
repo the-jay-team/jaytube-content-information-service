@@ -51,5 +51,5 @@ func TestMalformedJsonPayload(t *testing.T) {
 	testEndpoint := endpoint.NewPostVideoData(data_provider.NewMockedDataProvider())
 	testEndpoint.PostVideoData(testContext)
 
-	assert.Equal(t, http.StatusInternalServerError, record.Code)
+	assert.Equal(t, http.StatusBadRequest, record.Code)
 }
