@@ -74,3 +74,18 @@ func (provider *OpensearchDataProvider) GetVideoData(id string) (data.VideoDataR
 		Tags:        response.Source.Tags,
 		Visibility:  response.Source.Visibility}, nil
 }
+
+func (provider *OpensearchDataProvider) DeleteVideoData(id string) (bool, error) {
+	request := opensearchapi.DeleteRequest{
+		Index:      provider.index,
+		DocumentID: id}
+
+	opensearchResponse, _ := request.Do(context.Background(), provider.client)
+	if opensearchResponse.StatusCode == 404 {
+		return false, nil
+	} else if opensearchResponse.StatusCode != 200 {
+		return false, errors.New("failed to delete video data to opensearch")
+	}
+
+	return true, nil
+}

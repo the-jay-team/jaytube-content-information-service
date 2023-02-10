@@ -7,26 +7,31 @@ import (
 	"net/http"
 )
 
-type GetVideoDataEndpoint struct {
+type DeleteVideoDataEndpoint struct {
 	dataProvider data_provider.DataProvider
 }
 
-func NewGetVideoDataEndpoint(dataProvider data_provider.DataProvider) *GetVideoDataEndpoint {
-	return &GetVideoDataEndpoint{dataProvider}
+func NewDeleteVideoEndpoint(dataProvider data_provider.DataProvider) *DeleteVideoDataEndpoint {
+	return &DeleteVideoDataEndpoint{dataProvider}
 }
 
-func (endpoint *GetVideoDataEndpoint) GetVideoData(ginContext *gin.Context) {
+func (endpoint *DeleteVideoDataEndpoint) DeleteVideoData(ginContext *gin.Context) {
 	id, exists := ginContext.GetQuery("id")
 	if !exists {
 		ginContext.JSON(http.StatusBadRequest, "Missing Querry: id")
 		return
 	}
 
-	response, providerErr := endpoint.dataProvider.GetVideoData(id)
+	existed, providerErr := endpoint.dataProvider.DeleteVideoData(id)
 	if providerErr != nil {
 		ginContext.JSON(http.StatusInternalServerError,
 			fmt.Sprintf("error happened in data provider: %s", providerErr))
 		return
 	}
-	ginContext.JSON(http.StatusOK, response)
+
+	if !existed {
+		ginContext.JSON(http.StatusGone, "")
+		return
+	}
+	ginContext.JSON(http.StatusOK, "")
 }

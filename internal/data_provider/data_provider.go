@@ -6,4 +6,6 @@ type DataProvider interface {
 	PostVideoData(payload data.VideoDataPayload) (data.VideoDataResponse, error)
 
 	GetVideoData(id string) (data.VideoDataResponse, error)
+
+	DeleteVideoData(id string) (bool, error)
 }
