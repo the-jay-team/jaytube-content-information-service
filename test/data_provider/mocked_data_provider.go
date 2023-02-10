@@ -24,7 +24,7 @@ func (provider *MockedDataProvider) PostVideoData(payload data.VideoDataPayload)
 }
 
 func (provider *MockedDataProvider) GetVideoData(id string) (data.VideoDataResponse, error) {
-	if id == "abc45" {
+	if id == "1" {
 		return data.VideoDataResponse{
 			Id:          "1",
 			Title:       "Test",
