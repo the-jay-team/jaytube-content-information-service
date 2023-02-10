@@ -20,7 +20,7 @@ func NewPostVideoData(dataProvider data_provider.DataProvider) *PostVideoDataEnd
 func (controller *PostVideoDataEndpoint) PostVideoData(ginContext *gin.Context) {
 	var videoData data.VideoDataPayload
 	if ginContext.ShouldBindBodyWith(&videoData, binding.JSON) != nil {
-		ginContext.JSON(http.StatusInternalServerError, "Malformed JSON in request body")
+		ginContext.JSON(http.StatusBadRequest, "Malformed JSON in request body")
 		return
 	}
 
