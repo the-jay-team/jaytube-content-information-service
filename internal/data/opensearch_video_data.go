@@ -1,10 +1,8 @@
 package data
 
+import "github.com/the-jay-team/jaytube-content-information-service/pkg/data"
+
 type OpenSearchVideoData struct {
-	Title       string     `json:"title"`
-	Description string     `json:"description"`
-	UploadDate  string     `json:"uploadDate"`
-	Tags        []string   `json:"tags"`
-	Creator     string     `json:"creator"`
-	Visibility  Visibility `json:"visibility"`
+	Id     string                `json:"_id"`
+	Source data.VideoDataPayload `json:"_source"`
 }

@@ -26,9 +26,12 @@ func main() {
 	}
 
 	server := gin.Default()
-	videoController := endpoint.NewPostVideoData(data_provider.NewDataProvider(client, openSearchConfig.VideoDataIndex))
+	dataProvider := data_provider.NewDataProvider(client, openSearchConfig.VideoDataIndex)
+	postVideoDataEndpoint := endpoint.NewPostVideoDataEndpoint(dataProvider)
+	getVideoDataEndpoint := endpoint.NewGetVideoDataEndpoint(dataProvider)
 
-	server.POST("/video", videoController.PostVideoData)
+	server.POST("/video-data", postVideoDataEndpoint.PostVideoData)
+	server.GET("/video-data", getVideoDataEndpoint.GetVideoData)
 
 	ginStartError := server.Run(":8080")
 	if ginStartError != nil {

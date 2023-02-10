@@ -1,6 +1,7 @@
 package data_provider
 
 import (
+	"errors"
 	"github.com/the-jay-team/jaytube-content-information-service/pkg/data"
 )
 
@@ -20,4 +21,18 @@ func (provider *MockedDataProvider) PostVideoData(payload data.VideoDataPayload)
 		Visibility:  payload.Visibility,
 		UploadDate:  payload.UploadDate,
 	}, nil
+}
+
+func (provider *MockedDataProvider) GetVideoData(id string) (data.VideoDataResponse, error) {
+	if id == "abc45" {
+		return data.VideoDataResponse{
+			Id:          "1",
+			Title:       "Test",
+			UploadDate:  "01.01.2012",
+			Visibility:  data.Public,
+			Description: "Test",
+			Tags:        []string{"Test", "Test2"},
+		}, nil
+	}
+	return data.VideoDataResponse{}, errors.New("ID does not exist")
 }
