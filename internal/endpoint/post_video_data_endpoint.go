@@ -17,14 +17,14 @@ func NewPostVideoDataEndpoint(dataProvider data_provider.DataProvider) *PostVide
 	return &PostVideoDataEndpoint{dataProvider}
 }
 
-func (controller *PostVideoDataEndpoint) PostVideoData(ginContext *gin.Context) {
+func (endpoint *PostVideoDataEndpoint) PostVideoData(ginContext *gin.Context) {
 	var videoData data.VideoDataPayload
 	if ginContext.ShouldBindBodyWith(&videoData, binding.JSON) != nil {
 		ginContext.JSON(http.StatusBadRequest, "Malformed JSON in request body")
 		return
 	}
 
-	response, providerErr := controller.dataProvider.PostVideoData(videoData)
+	response, providerErr := endpoint.dataProvider.PostVideoData(videoData)
 	if providerErr != nil {
 		ginContext.JSON(http.StatusInternalServerError,
 			fmt.Sprintf("error happened in data provider: %s", providerErr))

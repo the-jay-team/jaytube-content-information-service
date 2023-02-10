@@ -36,3 +36,10 @@ func (provider *MockedDataProvider) GetVideoData(id string) (data.VideoDataRespo
 	}
 	return data.VideoDataResponse{}, errors.New("ID does not exist")
 }
+
+func (provider *MockedDataProvider) DeleteVideoData(id string) (bool, error) {
+	if id == "1" {
+		return true, nil
+	}
+	return false, nil
+}

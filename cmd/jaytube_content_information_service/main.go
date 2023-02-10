@@ -29,9 +29,11 @@ func main() {
 	dataProvider := data_provider.NewDataProvider(client, openSearchConfig.VideoDataIndex)
 	postVideoDataEndpoint := endpoint.NewPostVideoDataEndpoint(dataProvider)
 	getVideoDataEndpoint := endpoint.NewGetVideoDataEndpoint(dataProvider)
+	deleteVideoDataEndpoint := endpoint.NewDeleteVideoEndpoint(dataProvider)
 
 	server.POST("/video-data", postVideoDataEndpoint.PostVideoData)
 	server.GET("/video-data", getVideoDataEndpoint.GetVideoData)
+	server.DELETE("/video-data", deleteVideoDataEndpoint.DeleteVideoData)
 
 	ginStartError := server.Run(":8080")
 	if ginStartError != nil {
