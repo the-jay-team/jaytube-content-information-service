@@ -25,7 +25,7 @@ func TestReturnCorrectData(t *testing.T) {
 	context.Request, _ = http.NewRequest(http.MethodGet, "/video-data", nil)
 
 	urlValues := url.Values{}
-	urlValues.Add("id", "abc45")
+	urlValues.Add("id", "1")
 	context.Request.URL.RawQuery = urlValues.Encode()
 
 	testEndpoint := endpoint.NewGetVideoDataEndpoint(data_provider.NewMockedDataProvider())
