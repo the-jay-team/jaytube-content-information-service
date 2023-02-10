@@ -12,16 +12,15 @@ import (
 	"testing"
 )
 
-var expected = data.VideoDataResponse{
-	Id:          "1",
-	Title:       "Test",
-	UploadDate:  "01.01.2012",
-	Visibility:  data.Public,
-	Description: "Test",
-	Tags:        []string{"Test", "Test2"},
-}
-
 func TestPostVideoDataReturnsCorrectResponse(t *testing.T) {
+	expectedResponse := data.VideoDataResponse{
+		Id:          "1",
+		Title:       "Test",
+		UploadDate:  "01.01.2012",
+		Visibility:  data.Public,
+		Description: "Test",
+		Tags:        []string{"Test", "Test2"},
+	}
 	var testPayload, _ = json.Marshal(data.VideoDataPayload{
 		Title:       "Test",
 		UploadDate:  "01.01.2012",
@@ -29,17 +28,16 @@ func TestPostVideoDataReturnsCorrectResponse(t *testing.T) {
 		Description: "Test",
 		Tags:        []string{"Test", "Test2"},
 	})
-
 	record, testContext := test.GinTestSetup()
 	testContext.Request, _ = http.NewRequest(http.MethodPost, "/video-data", bytes.NewReader(testPayload))
 
-	testEndpoint := endpoint.NewPostVideoData(data_provider.NewMockedDataProvider())
+	testEndpoint := endpoint.NewPostVideoDataEndpoint(data_provider.NewMockedDataProvider())
 	testEndpoint.PostVideoData(testContext)
 
 	actualResponse := data.VideoDataResponse{}
 	_ = json.NewDecoder(record.Body).Decode(&actualResponse)
 
-	assert.EqualValues(t, expected, actualResponse)
+	assert.EqualValues(t, expectedResponse, actualResponse)
 }
 
 func TestMalformedJsonPayload(t *testing.T) {
@@ -48,7 +46,7 @@ func TestMalformedJsonPayload(t *testing.T) {
 	record, testContext := test.GinTestSetup()
 	testContext.Request, _ = http.NewRequest(http.MethodPost, "/video-data", bytes.NewReader(testPayload))
 
-	testEndpoint := endpoint.NewPostVideoData(data_provider.NewMockedDataProvider())
+	testEndpoint := endpoint.NewPostVideoDataEndpoint(data_provider.NewMockedDataProvider())
 	testEndpoint.PostVideoData(testContext)
 
 	assert.Equal(t, http.StatusBadRequest, record.Code)

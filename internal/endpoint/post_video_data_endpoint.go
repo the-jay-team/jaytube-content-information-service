@@ -13,7 +13,7 @@ type PostVideoDataEndpoint struct {
 	dataProvider data_provider.DataProvider
 }
 
-func NewPostVideoData(dataProvider data_provider.DataProvider) *PostVideoDataEndpoint {
+func NewPostVideoDataEndpoint(dataProvider data_provider.DataProvider) *PostVideoDataEndpoint {
 	return &PostVideoDataEndpoint{dataProvider}
 }
 
