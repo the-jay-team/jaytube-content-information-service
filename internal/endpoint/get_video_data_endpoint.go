@@ -18,14 +18,18 @@ func NewGetVideoDataEndpoint(dataProvider data_provider.DataProvider) *GetVideoD
 func (endpoint *GetVideoDataEndpoint) GetVideoData(ginContext *gin.Context) {
 	id, exists := ginContext.GetQuery("id")
 	if !exists {
-		ginContext.JSON(http.StatusBadRequest, "Missing Querry: id")
+		ginContext.JSON(http.StatusBadRequest, "Missing Query: id")
 		return
 	}
 
-	response, providerErr := endpoint.dataProvider.GetVideoData(id)
+	response, exists, providerErr := endpoint.dataProvider.GetVideoData(id)
 	if providerErr != nil {
 		ginContext.JSON(http.StatusInternalServerError,
 			fmt.Sprintf("error happened in data provider: %s", providerErr))
+		return
+	}
+	if !exists {
+		ginContext.JSON(http.StatusNotFound, "")
 		return
 	}
 	ginContext.JSON(http.StatusOK, response)

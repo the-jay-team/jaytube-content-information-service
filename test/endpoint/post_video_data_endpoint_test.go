@@ -28,11 +28,11 @@ func TestPostVideoDataReturnsCorrectResponse(t *testing.T) {
 		Description: "Test",
 		Tags:        []string{"Test", "Test2"},
 	})
-	record, testContext := test.GinTestSetup()
-	testContext.Request, _ = http.NewRequest(http.MethodPost, "/video-data", bytes.NewReader(testPayload))
+	record, context := test.GinTestSetup()
+	context.Request, _ = http.NewRequest(http.MethodPost, "/video-data", bytes.NewReader(testPayload))
 
 	testEndpoint := endpoint.NewPostVideoDataEndpoint(data_provider.NewMockedDataProvider())
-	testEndpoint.PostVideoData(testContext)
+	testEndpoint.PostVideoData(context)
 
 	actualResponse := data.VideoDataResponse{}
 	_ = json.NewDecoder(record.Body).Decode(&actualResponse)
@@ -43,11 +43,11 @@ func TestPostVideoDataReturnsCorrectResponse(t *testing.T) {
 func TestMalformedJsonPayload(t *testing.T) {
 	var testPayload = []byte(`{"Title": "test"}`)
 
-	record, testContext := test.GinTestSetup()
-	testContext.Request, _ = http.NewRequest(http.MethodPost, "/video-data", bytes.NewReader(testPayload))
+	record, context := test.GinTestSetup()
+	context.Request, _ = http.NewRequest(http.MethodPost, "/video-data", bytes.NewReader(testPayload))
 
 	testEndpoint := endpoint.NewPostVideoDataEndpoint(data_provider.NewMockedDataProvider())
-	testEndpoint.PostVideoData(testContext)
+	testEndpoint.PostVideoData(context)
 
 	assert.Equal(t, http.StatusBadRequest, record.Code)
 }
