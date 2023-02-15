@@ -12,7 +12,7 @@ import (
 	"testing"
 )
 
-func TestReturnCorrectData(t *testing.T) {
+func TestReturnCorrectGetResponse(t *testing.T) {
 	expectedResponse := data.VideoDataResponse{
 		Id:          "1",
 		Title:       "Test",
@@ -35,6 +35,7 @@ func TestReturnCorrectData(t *testing.T) {
 	_ = json.NewDecoder(record.Body).Decode(&actualResponse)
 
 	assert.EqualValues(t, actualResponse, expectedResponse)
+	assert.Equal(t, http.StatusOK, record.Code)
 }
 
 func TestReturnBadRequestOnMissingId(t *testing.T) {
@@ -45,4 +46,18 @@ func TestReturnBadRequestOnMissingId(t *testing.T) {
 	testEndpoint.GetVideoData(context)
 
 	assert.Equal(t, http.StatusBadRequest, record.Code)
+}
+
+func TestReturnNotFoundIfDataNotExists(t *testing.T) {
+	record, context := test.GinTestSetup()
+	context.Request, _ = http.NewRequest(http.MethodGet, "/video-data", nil)
+
+	urlValues := url.Values{}
+	urlValues.Add("id", "2")
+	context.Request.URL.RawQuery = urlValues.Encode()
+
+	testEndpoint := endpoint.NewGetVideoDataEndpoint(data_provider.NewMockedDataProvider())
+	testEndpoint.GetVideoData(context)
+
+	assert.Equal(t, http.StatusNotFound, record.Code)
 }

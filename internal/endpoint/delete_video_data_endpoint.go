@@ -18,7 +18,7 @@ func NewDeleteVideoEndpoint(dataProvider data_provider.DataProvider) *DeleteVide
 func (endpoint *DeleteVideoDataEndpoint) DeleteVideoData(ginContext *gin.Context) {
 	id, exists := ginContext.GetQuery("id")
 	if !exists {
-		ginContext.JSON(http.StatusBadRequest, "Missing Querry: id")
+		ginContext.JSON(http.StatusBadRequest, "Missing Query: id")
 		return
 	}
 

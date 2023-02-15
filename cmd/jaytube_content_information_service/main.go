@@ -30,10 +30,12 @@ func main() {
 	postVideoDataEndpoint := endpoint.NewPostVideoDataEndpoint(dataProvider)
 	getVideoDataEndpoint := endpoint.NewGetVideoDataEndpoint(dataProvider)
 	deleteVideoDataEndpoint := endpoint.NewDeleteVideoEndpoint(dataProvider)
+	patchVideoDataEndpoint := endpoint.NewPatchVideoDataEndpoint(dataProvider)
 
 	server.POST("/video-data", postVideoDataEndpoint.PostVideoData)
 	server.GET("/video-data", getVideoDataEndpoint.GetVideoData)
 	server.DELETE("/video-data", deleteVideoDataEndpoint.DeleteVideoData)
+	server.PATCH("/video-data", patchVideoDataEndpoint.PatchVideoData)
 
 	ginStartError := server.Run(":8080")
 	if ginStartError != nil {

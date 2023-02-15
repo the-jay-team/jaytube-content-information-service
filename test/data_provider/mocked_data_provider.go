@@ -23,7 +23,7 @@ func (provider *MockedDataProvider) PostVideoData(payload data.VideoDataPayload)
 	}, nil
 }
 
-func (provider *MockedDataProvider) GetVideoData(id string) (data.VideoDataResponse, error) {
+func (provider *MockedDataProvider) GetVideoData(id string) (data.VideoDataResponse, bool, error) {
 	if id == "1" {
 		return data.VideoDataResponse{
 			Id:          "1",
@@ -32,9 +32,9 @@ func (provider *MockedDataProvider) GetVideoData(id string) (data.VideoDataRespo
 			Visibility:  data.Public,
 			Description: "Test",
 			Tags:        []string{"Test", "Test2"},
-		}, nil
+		}, true, nil
 	}
-	return data.VideoDataResponse{}, errors.New("ID does not exist")
+	return data.VideoDataResponse{}, false, nil
 }
 
 func (provider *MockedDataProvider) DeleteVideoData(id string) (bool, error) {
@@ -42,4 +42,19 @@ func (provider *MockedDataProvider) DeleteVideoData(id string) (bool, error) {
 		return true, nil
 	}
 	return false, nil
+}
+
+func (provider *MockedDataProvider) PatchVideoData(id string, payload data.VideoDataPayload) (data.VideoDataResponse, error) {
+	if id == "1" {
+		return data.VideoDataResponse{
+			Id:          "1",
+			Tags:        payload.Tags,
+			Title:       payload.Title,
+			Description: payload.Description,
+			Visibility:  payload.Visibility,
+			UploadDate:  payload.UploadDate,
+		}, nil
+	}
+
+	return data.VideoDataResponse{}, errors.New("ID does not exist")
 }
