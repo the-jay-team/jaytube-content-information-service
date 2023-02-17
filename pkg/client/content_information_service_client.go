@@ -13,8 +13,8 @@ type ContentInformationServiceClient struct {
 	target string
 }
 
-func NewContentInformationServiceClient() *ContentInformationServiceClient {
-	return &ContentInformationServiceClient{}
+func NewContentInformationServiceClient(target string) *ContentInformationServiceClient {
+	return &ContentInformationServiceClient{target}
 }
 
 func (client *ContentInformationServiceClient) VideoExists(id string) (bool, error) {
