@@ -28,3 +28,11 @@ func (client *MockedContentInformationServiceClient) GetVideoData(id string) (da
 	}
 	return data.VideoDataResponse{}, nil
 }
+
+func (client *MockedContentInformationServiceClient) DeleteVideoData(id string) (bool, error) {
+	if id == "1" {
+		return true, nil
+	}
+
+	return false, nil
+}

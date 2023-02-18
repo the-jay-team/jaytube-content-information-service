@@ -7,5 +7,5 @@ type IrisClient interface {
 
 	GetVideoData(id string) (data.VideoDataResponse, error)
 
-	DeleteVideoData(id string) error
+	DeleteVideoData(id string) (bool, error)
 }
