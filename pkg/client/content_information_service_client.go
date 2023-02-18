@@ -49,3 +49,17 @@ func (client *ContentInformationServiceClient) GetVideoData(id string) (data.Vid
 
 	return videoDate, nil
 }
+
+func (client *ContentInformationServiceClient) DeleteVideoData(id string) error {
+	request, _ := http.NewRequest(http.MethodDelete, fmt.Sprintf("%s/video-data?id=%s", client.target, id), nil)
+	response, err := http.DefaultClient.Do(request)
+	if err != nil {
+		return err
+	}
+	body, _ := io.ReadAll(response.Body)
+	if response.StatusCode != 200 {
+		return errors.New(fmt.Sprintf("could not delete video data via iris [%d]: %s",
+			response.StatusCode, string(body)))
+	}
+	return nil
+}
